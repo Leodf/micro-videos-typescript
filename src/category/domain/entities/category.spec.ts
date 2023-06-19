@@ -1,4 +1,4 @@
-import { Category } from "./category";
+import Category from "./category";
 
 describe("Category unit test", () => {
   test("constructor of category", () => {
