@@ -1,5 +1,7 @@
 import Entity from "../../../@seedwork/domain/entity/entity";
+import { EntityValidationError } from "../../../@seedwork/domain/errors/validation-error";
 import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
+import CategoryValidatorFactory from "../validators/category-validator";
 
 export type CategoryProps = {
   name: string;
@@ -10,10 +12,28 @@ export type CategoryProps = {
 
 export default class Category extends Entity<CategoryProps> {
   constructor(public readonly props: CategoryProps, id?: UniqueEntityId) {
+    Category.validate(props);
     super(props, id);
     this.description = this.props.description;
     this.props.isActive = this.props.isActive ?? true;
     this.props.createdAt = this.props.createdAt ?? new Date();
+  }
+
+  // static validate(props: Omit<CategoryProps, "createdAt">) {
+  //   ValidatorRules.values(props.name, "name")
+  //     .required()
+  //     .string()
+  //     .maxLength(255);
+  //   ValidatorRules.values(props.description, "description").string();
+  //   ValidatorRules.values(props.isActive, "isActive").boolean();
+  // }
+
+  static validate(props: CategoryProps) {
+    const validator = CategoryValidatorFactory.create();
+    const isValid = validator.validate(props);
+    if (!isValid) {
+      throw new EntityValidationError(validator.errors);
+    }
   }
 
   get name() {
@@ -21,9 +41,6 @@ export default class Category extends Entity<CategoryProps> {
   }
 
   private set name(value: string) {
-    if (typeof value !== "string") {
-      throw new Error("Invalid name");
-    }
     this.props.name = value;
   }
 
@@ -51,10 +68,13 @@ export default class Category extends Entity<CategoryProps> {
     this.props.isActive = false;
   }
 
-  update(value: { name?: string; description?: string }) {
-    for (const key in value) {
-      this.name = key === "name" ? value[key] : this.name;
-      this.description = key === "description" ? value[key] : this.description;
-    }
+  update(value: { name: string; description: string }) {
+    let { name, description } = value;
+    Category.validate({
+      name,
+      description,
+    });
+    this.name = name;
+    this.description = description;
   }
 }
