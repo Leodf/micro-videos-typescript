@@ -8,7 +8,7 @@ export default abstract class InMemorySearchableRepository<E extends Entity>
   extends InMemoryRepository<E>
   implements SearchableRepositoryInterface<E>
 {
-  sortableFields: string[] = [];
+  protected sortableFields: string[] = [];
   async search(props: SearchParams): Promise<SearchResult<E>> {
     const itemsFiltered = await this.applyFilter(this.items, props.filter);
     const itemsSorted = await this.applySort(
@@ -35,24 +35,32 @@ export default abstract class InMemorySearchableRepository<E extends Entity>
     items: E[],
     filter: string | null
   ): Promise<E[]>;
+
   protected async applySort(
     items: E[],
     sort: string | null,
     sortDir: SortDirection | null
   ): Promise<E[]> {
-    if (!sort && !this.sortableFields.includes(sort)) {
-      return items;
+    if (this.sortableFields.includes(sort)) {
+      if (!sortDir) {
+        sortDir = "asc";
+      }
+      switch (sortDir) {
+        case "asc":
+          return [...items].sort((a, b) =>
+            a.props[sort] > b.props[sort] ? 1 : -1
+          );
+        case "desc":
+          return [...items].sort((a, b) =>
+            a.props[sort] < b.props[sort] ? 1 : -1
+          );
+        default:
+          return;
+      }
     }
-    return [...items].sort((a, b) => {
-      if (a.props[sort] < b.props[sort]) {
-        return sortDir === "asc" ? -1 : 1;
-      }
-      if (a.props[sort] > b.props[sort]) {
-        return sortDir === "asc" ? 1 : -1;
-      }
-      return 0;
-    });
+    return items;
   }
+
   protected async applyPaginate(
     items: E[],
     page: SearchParams["page"],

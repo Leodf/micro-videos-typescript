@@ -11,7 +11,7 @@ type StubEntityProps = {
 class StubEntity extends Entity<StubEntityProps> {}
 
 class StubInMemorySearchableRepository extends InMemorySearchableRepository<StubEntity> {
-  sortableFields: string[] = ["name"];
+  protected sortableFields: string[] = ["name"];
 
   protected async applyFilter(
     items: StubEntity[],
@@ -67,10 +67,22 @@ describe("InMemorySearchableRepository Unit Test", () => {
     it("should no sort items", async () => {
       const items = [
         new StubEntity({ name: "b", price: 5 }),
-        new StubEntity({ name: "a", price: 5 }),
+        new StubEntity({ name: "a", price: 4 }),
       ];
       let itemsSorted = await repository["applySort"](items, null, null);
       expect(itemsSorted).toStrictEqual(items);
+
+      itemsSorted = await repository["applySort"](items, "price", "asc");
+      expect(itemsSorted).toStrictEqual(items);
+    });
+    it("should no sort items if sortableFields is empty", async () => {
+      const items = [
+        new StubEntity({ name: "b", price: 5 }),
+        new StubEntity({ name: "a", price: 4 }),
+      ];
+      repository["sortableFields"] = [];
+      let itemsSorted = await repository["applySort"](items, "name", null);
+      expect(itemsSorted).toStrictEqual([items[0], items[1]]);
 
       itemsSorted = await repository["applySort"](items, "price", "asc");
       expect(itemsSorted).toStrictEqual(items);
@@ -82,6 +94,9 @@ describe("InMemorySearchableRepository Unit Test", () => {
         new StubEntity({ name: "c", price: 5 }),
       ];
       let itemsSorted = await repository["applySort"](items, "name", "asc");
+      expect(itemsSorted).toStrictEqual([items[1], items[0], items[2]]);
+
+      itemsSorted = await repository["applySort"](items, "name", null);
       expect(itemsSorted).toStrictEqual([items[1], items[0], items[2]]);
 
       itemsSorted = await repository["applySort"](items, "name", "desc");
@@ -114,7 +129,7 @@ describe("InMemorySearchableRepository Unit Test", () => {
     it("should apply only paginate when other params are null", async () => {
       const entity = new StubEntity({ name: "a", price: 5 });
       const items = Array(16).fill(entity);
-      repository.items = items;
+      repository["items"] = items;
 
       const result = await repository.search(new SearchParams());
       expect(result).toStrictEqual(
@@ -136,7 +151,7 @@ describe("InMemorySearchableRepository Unit Test", () => {
         new StubEntity({ name: "TEST", price: 5 }),
         new StubEntity({ name: "TeSt", price: 5 }),
       ];
-      repository.items = items;
+      repository["items"] = items;
 
       let result = await repository.search(
         new SearchParams({ page: 1, perPage: 2, filter: "TEST" })
@@ -175,7 +190,7 @@ describe("InMemorySearchableRepository Unit Test", () => {
         new StubEntity({ name: "e", price: 5 }),
         new StubEntity({ name: "c", price: 5 }),
       ];
-      repository.items = items;
+      repository["items"] = items;
 
       const arrange = [
         {
