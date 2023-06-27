@@ -11,7 +11,7 @@ type SearchResultProps<E extends Entity, Filter> = {
 };
 
 export class SearchResult<E extends Entity = Entity, Filter = string> {
-  readonly items: E[];
+  readonly _items: E[];
   readonly total: number;
   readonly currentPage: number;
   readonly perPage: number;
@@ -21,7 +21,7 @@ export class SearchResult<E extends Entity = Entity, Filter = string> {
   readonly filter: Filter;
 
   constructor(props: SearchResultProps<E, Filter>) {
-    this.items = props.items;
+    this._items = props.items;
     this.total = props.total;
     this.currentPage = props.currentPage;
     this.perPage = props.perPage;
@@ -29,6 +29,10 @@ export class SearchResult<E extends Entity = Entity, Filter = string> {
     this.sort = props.sort;
     this.sortDir = props.sortDir;
     this.filter = props.filter;
+  }
+
+  get items() {
+    return this._items;
   }
 
   toJSON() {
