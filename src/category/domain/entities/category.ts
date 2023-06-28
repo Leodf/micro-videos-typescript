@@ -68,13 +68,13 @@ export default class Category extends Entity<CategoryProps> {
     this.props.isActive = false;
   }
 
-  update(value: { name: string; description: string }) {
+  update(value: { name?: string; description?: string }) {
     let { name, description } = value;
     Category.validate({
       name,
       description,
     });
     this.name = name;
-    this.description = description;
+    this.description = description ? description : this.description;
   }
 }

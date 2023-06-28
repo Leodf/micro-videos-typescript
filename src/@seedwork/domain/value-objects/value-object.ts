@@ -16,7 +16,7 @@ export default abstract class ValueObject<Value = any> {
       try {
         return this.value.toString();
       } catch (e) {
-        return this.value + "";
+        return this.value + ""
       }
     }
     const valueStr = this.value.toString();

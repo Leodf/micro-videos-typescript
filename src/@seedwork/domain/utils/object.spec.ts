@@ -34,4 +34,10 @@ describe("object Unit Tests", () => {
 
     expect(obj.deep.prop3).toBeInstanceOf(Date);
   });
+  it("should not throw if value is null or undefined and return the input value", () => {
+    let obj = deepFreeze(null);
+    expect(obj).toBeNull();
+    obj = deepFreeze(undefined);
+    expect(obj).toBeUndefined();
+  });
 });

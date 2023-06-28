@@ -24,6 +24,8 @@ describe("ValueObject Unit Tests", () => {
       { received: true, expected: "true" },
       { received: false, expected: "false" },
       { received: date, expected: date.toString() },
+      { received: null, expected: "null" },
+      { received: undefined, expected: "undefined" },
       {
         received: { prop1: "value1" },
         expected: JSON.stringify({ prop1: "value1" }),

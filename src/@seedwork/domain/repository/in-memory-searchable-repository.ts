@@ -54,8 +54,6 @@ export default abstract class InMemorySearchableRepository<E extends Entity>
           return [...items].sort((a, b) =>
             a.props[sort] < b.props[sort] ? 1 : -1
           );
-        default:
-          return;
       }
     }
     return items;

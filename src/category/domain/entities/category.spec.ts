@@ -27,6 +27,8 @@ describe("Category unit test", () => {
     expect(Category.validate).toHaveBeenCalledTimes(2);
     expect(category.name).toBe("Documentary");
     expect(category.description).toBe("some description");
+    category.update({description: null})
+    expect(category.description).toBe("some description");
   });
   test("should activate a category", () => {
     const createdAt = new Date();

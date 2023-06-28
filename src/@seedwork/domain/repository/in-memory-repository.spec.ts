@@ -18,7 +18,7 @@ describe("InMemoryRepository Unit Tests", () => {
   test("should inserts a new entity", async () => {
     const entity = new StubEntity({ name: "any name", price: 5 });
     await repository.insert(entity);
-    expect(entity.toJSON()).toStrictEqual(repository.items[0].toJSON());
+    expect(entity.toJSON()).toStrictEqual(repository["items"][0].toJSON());
   });
   test("should throws error when entity not found by method findById", async () => {
     expect(() => repository.findById("fake id")).rejects.toThrow(
@@ -67,7 +67,9 @@ describe("InMemoryRepository Unit Tests", () => {
       entity.uniqueEntityId
     );
     await repository.update(entityUpdated);
-    expect(entityUpdated.toJSON()).toStrictEqual(repository.items[0].toJSON());
+    expect(entityUpdated.toJSON()).toStrictEqual(
+      repository["items"][0].toJSON()
+    );
   });
   test("should throws error when entity not found by method delete", async () => {
     expect(() => repository.delete("fake id")).rejects.toThrow(
@@ -88,11 +90,11 @@ describe("InMemoryRepository Unit Tests", () => {
     await repository.insert(entity);
 
     await repository.delete(entity.id);
-    expect(repository.items).toHaveLength(0);
+    expect(repository["items"]).toHaveLength(0);
 
     await repository.insert(entity);
 
     await repository.delete(entity.uniqueEntityId);
-    expect(repository.items).toHaveLength(0);
+    expect(repository["items"]).toHaveLength(0);
   });
 });
