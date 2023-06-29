@@ -8,7 +8,7 @@ describe("CategoryValidator Tests", () => {
   beforeEach(() => (validator = CategoryValidatorFactory.create()));
 
   test("invalidation cases for name field", () => {
-    validator.validate(null);
+    validator.validate(null as any);
     expect(validator.errors["name"]).toStrictEqual([
       "name should not be empty",
       "name must be a string",
@@ -63,7 +63,7 @@ describe("CategoryValidator Tests", () => {
         name: "some value",
         description: undefined,
       },
-      { name: "some value", description: null },
+      { name: "some value", description: null as any},
       { name: "some value", description: "some description" },
       { name: "some value", is_active: true },
       { name: "some value", is_active: false },

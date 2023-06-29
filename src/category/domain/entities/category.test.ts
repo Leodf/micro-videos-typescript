@@ -1,4 +1,4 @@
-import { EntityValidationError } from "../../../@seedwork/domain/errors/validation-error";
+import { EntityValidationError } from "#seedwork/domain/errors/validation-error";
 import Category from "./category";
 
 describe("Category Integration Tests", () => {
@@ -110,7 +110,7 @@ describe("Category Integration Tests", () => {
           name: "some value",
           description: undefined,
         },
-        { name: "some value", description: null },
+        { name: "some value", description: null as any },
         { name: "some value", description: "some description" },
         { name: "some value", is_active: true },
         { name: "some value", is_active: false },
@@ -198,7 +198,7 @@ describe("Category Integration Tests", () => {
 
       test.each(arrange)("validate %o", (item) => {
         const category = new Category({ name: "Movie" });
-        category.update(item);
+        category.update(item as any); //NOSONAR
         expect(Category["validate"]).toBeTruthy();
       });
     });
