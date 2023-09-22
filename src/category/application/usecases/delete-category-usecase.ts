@@ -4,9 +4,7 @@ import UseCase from "@/shared/application/usecase";
 export default class DeleteCategoryUseCase
   implements UseCase<DeleteCategoryUseCase.Input, DeleteCategoryUseCase.Output>
 {
-  constructor(
-    private readonly categoryRepository: CategoryRepository.Repository
-  ) {}
+  constructor(private readonly categoryRepository: CategoryRepository) {}
 
   async execute(
     input: DeleteCategoryUseCase.Input

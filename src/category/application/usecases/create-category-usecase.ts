@@ -5,9 +5,7 @@ import UseCase from "@/shared/application/usecase";
 export default class CreateCategoryUseCase
   implements UseCase<CreateCategoryUseCase.Input, CreateCategoryUseCase.Output>
 {
-  constructor(
-    private readonly categoryRepository: CategoryRepository.Repository
-  ) {}
+  constructor(private readonly categoryRepository: CategoryRepository) {}
 
   async execute(
     input: CreateCategoryUseCase.Input

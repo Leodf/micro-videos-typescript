@@ -1,6 +1,6 @@
 import Category from "@/category/domain/entities/category";
 import CategoryInMemoryRepository from "./category-in-memory-repository";
-import { CategoryRepository } from "@/category/domain/repository";
+import { SearchParams } from "@/category/domain/repository";
 
 describe("CategoryInMemoryRepository Unit Tests", () => {
   let categoryInMemoryRepository: CategoryInMemoryRepository;
@@ -124,7 +124,7 @@ describe("CategoryInMemoryRepository Unit Tests", () => {
       new Category({ name: "tEStE" }),
     ];
     categoryInMemoryRepository["items"] = categories;
-    const searchParams = new CategoryRepository.SearchParams({
+    const searchParams = new SearchParams({
       sort: "name",
     });
     let itemsFiltered = await categoryInMemoryRepository.search(searchParams);

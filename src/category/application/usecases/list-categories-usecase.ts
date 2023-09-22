@@ -1,17 +1,15 @@
-import { CategoryRepository } from "@/category/domain/repository";
+import { CategoryRepository, SearchParams } from "@/category/domain/repository";
 import UseCase from "@/shared/application/usecase";
 
 export default class ListCategoriesUseCase
   implements UseCase<ListCategoriesUseCase.Input, ListCategoriesUseCase.Output>
 {
-  constructor(
-    private readonly categoryRepository: CategoryRepository.Repository
-  ) {}
+  constructor(private readonly categoryRepository: CategoryRepository) {}
 
   async execute(
     input: ListCategoriesUseCase.Input
   ): Promise<ListCategoriesUseCase.Output> {
-    const searchParams = new CategoryRepository.SearchParams(input);
+    const searchParams = new SearchParams(input);
     const searchResult = await this.categoryRepository.search(searchParams);
     const { items, total, currentPage, perPage, lastPage } =
       searchResult.toJSON();
