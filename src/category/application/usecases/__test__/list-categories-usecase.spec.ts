@@ -1,6 +1,6 @@
-import Category from "../../../domain/entities/category";
-import CategoryInMemoryRepository from "../../../infra/repository/category-in-memory-repository";
+import Category from "@/category/domain/entities/category";
 import ListCategoriesUseCase from "../list-categories-usecase";
+import CategoryInMemoryRepository from "@/category/infra/repository/category-in-memory-repository";
 
 const categories = [
   new Category({ name: "teste" }),

@@ -1,6 +1,6 @@
-import { SearchableRepositoryInterface } from "#seedwork/domain/repository/repository-contracts";
-import { SearchParams as DefaultSearchParams } from "#seedwork/domain/repository/search-params";
-import { SearchResult as DefaultSearchResult } from "#seedwork/domain/repository/search-result";
+import { SearchableRepositoryInterface } from "@/shared/domain/repository/repository-contracts";
+import { SearchParams as DefaultSearchParams } from "@/shared/domain/repository/search-params";
+import { SearchResult as DefaultSearchResult } from "@/shared/domain/repository/search-result";
 import Category from "../entities/category";
 
 export namespace CategoryRepository {

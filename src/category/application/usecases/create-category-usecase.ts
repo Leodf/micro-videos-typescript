@@ -1,6 +1,6 @@
-import CategoryRepository from "category/domain/repository/category-repository";
-import UseCase from "../../../@seedwork/application/usecase";
-import Category from "../../domain/entities/category";
+import Category from "@/category/domain/entities/category";
+import { CategoryRepository } from "@/category/domain/repository";
+import UseCase from "@/shared/application/usecase";
 
 export default class CreateCategoryUseCase
   implements UseCase<CreateCategoryUseCase.Input, CreateCategoryUseCase.Output>

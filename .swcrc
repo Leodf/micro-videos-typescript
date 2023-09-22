@@ -4,10 +4,13 @@
       "syntax": "typescript",
       "decorators": true
     },
+    "transform": {
+      "legacyDecorator": true,
+      "decoratorMetadata": true
+    },
     "baseUrl": "./src",
     "paths": {
-      "#seedwork/*": ["./@seedwork/*"],
-      "#category/*": ["./category/*"]
+      "@/*": ["./*"]
     }
   }
 }

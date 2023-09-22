@@ -12,9 +12,10 @@
     "strict": true,
     "strictNullChecks": false,
     "skipLibCheck": true,
+    "removeComments": true,
+    "allowSyntheticDefaultImports": true,
     "paths": {
-      "#seedwork/*": ["./@seedwork/*"],
-      "#category/*": ["./category/*"]
+      "@/*": ["*"]
     }
   },
   "include": ["src"],
