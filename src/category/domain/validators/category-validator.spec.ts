@@ -50,12 +50,33 @@ describe("CategoryValidator Tests", () => {
       "isActive must be a boolean value",
     ]);
   });
+  test("invalidation cases for createdAt field", () => {
+    validator.validate({ name: "any name", createdAt: 0 as any });
+    expect(validator.errors["createdAt"]).toStrictEqual([
+      "createdAt must be a Date instance",
+    ]);
+    validator.validate({
+      name: "any name",
+      createdAt: "2023-09-22T19:42:27.473Z" as any,
+    });
+    expect(validator.errors["createdAt"]).toStrictEqual([
+      "createdAt must be a Date instance",
+    ]);
+    validator.validate({
+      name: "any name",
+      createdAt: false as any,
+    });
+    expect(validator.errors["createdAt"]).toStrictEqual([
+      "createdAt must be a Date instance",
+    ]);
+  });
 
   describe("valid cases for fields", () => {
     type Arrange = {
       name: string;
       description?: string;
       is_active?: boolean;
+      created_at?: Date;
     };
     const arrange: Arrange[] = [
       { name: "some value" },
@@ -63,11 +84,29 @@ describe("CategoryValidator Tests", () => {
         name: "some value",
         description: undefined,
       },
-      { name: "some value", description: null as any},
+      { name: "some value", description: null as any },
       { name: "some value", description: "some description" },
       { name: "some value", is_active: true },
       { name: "some value", is_active: false },
       { name: "some value", description: "some description", is_active: true },
+      {
+        name: "some value",
+        description: "some description",
+        is_active: true,
+        created_at: new Date(),
+      },
+      {
+        name: "some value",
+        description: null as any,
+        is_active: null as any,
+        created_at: null as any,
+      },
+      {
+        name: "some value",
+        description: undefined,
+        is_active: undefined,
+        created_at: undefined,
+      },
     ];
 
     test.each(arrange)("validate %o", (item) => {
